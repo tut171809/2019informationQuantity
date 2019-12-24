@@ -118,13 +118,14 @@ public class TestCase {
 	    System.out.print("\"e\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
 	    if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 
+	    myObject.setTarget(new byte[0]);
+	    freq = myObject.frequency();
+	    System.out.print("\"\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+	    if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 
-	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
-      freq = myObject.subByteFrequency(1, 4);
-	    System.out.print("\"H\" in \"i H\" appears "+freq+" times. ");
-	    if(1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
-      freq = myObject.subByteFrequency(1, 1);
+	    myObject.setTarget("H".getBytes());
+	    myObject.setSpace(new byte[0]);
+	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"\" appears "+freq+" times. ");
 	    if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 
