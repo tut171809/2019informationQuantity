@@ -79,12 +79,13 @@ public class TestCase {
       try {
         myObject.setTarget(new byte[0]);
         freq = myObject.frequency();
-        if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
       } catch (Exception ex) {
         ex.printStackTrace();
         System.out.println("WRONG");
       }
 
+      System.out.print("Check non-empty target and empty space");
       try {
         myObject.setTarget("H".getBytes());
         myObject.setSpace(new byte[0]);
@@ -96,7 +97,13 @@ public class TestCase {
         System.out.println("WRONG");
       }
 
+      System.out.print("Check empty target and non-empty space");
+      myObject.setTarget(new byte[0]);
+      freq = myObject.frequency();
+      System.out.print("\"\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+      if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 
+      System.out.print("Check general inputs");
       try {
         myObject.setSpace("Hi Ho Hi Ho".getBytes());
         myObject.setTarget("H".getBytes());
@@ -118,23 +125,45 @@ public class TestCase {
       System.out.print("\"e\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
       if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 
-      myObject.setTarget(new byte[0]);
-      freq = myObject.frequency();
-      System.out.print("\"\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-      if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
-      myObject.setTarget("H".getBytes());
-      myObject.setSpace(new byte[0]);
-      freq = myObject.frequency();
-      System.out.print("\"H\" in \"\" appears "+freq+" times. ");
-      if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
 
       System.out.print("Check multi-byte target");
       try {
         myObject.setTarget("Ho ".getBytes());
         freq = myObject.frequency();
         System.out.print("\"Ho \" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+        if(1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        System.out.println("WRONG");
+      }
+
+      System.out.print("Check target that equals space");
+      try {
+        myObject.setTarget("Hi Ho Hi Ho".getBytes());
+        freq = myObject.frequency();
+        System.out.print("\"Ho \" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+        if(1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        System.out.println("WRONG");
+      }
+
+      System.out.print("Check large size target (target.length > space.length)");
+      try {
+        myObject.setTarget("Hi Ho Hi HoA".getBytes());
+        freq = myObject.frequency();
+        System.out.print("\"Hi Ho Hi HoA\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+        if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        System.out.println("WRONG");
+      }
+
+      System.out.print("Check subByteFrequency");
+      try {
+        myObject.setTarget("Hi".getBytes());
+        freq = myObject.subByteFrequency(4, 10);
+        System.out.print("\"Hi\" in \"o Hi H\" appears "+freq+" times. ");
         if(1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
       } catch (Exception ex) {
         ex.printStackTrace();
