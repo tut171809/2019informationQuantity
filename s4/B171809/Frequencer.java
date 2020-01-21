@@ -1,4 +1,4 @@
-package s4.umemura;
+package s4.B171809;
 import java.lang.*;
 import s4.specification.*;
 
@@ -65,7 +65,35 @@ public class Frequencer implements FrequencerInterface{
 
         // ここにコードを記述せよ 
         //                                          
-        return 0; // この行は変更しなければいけない。 
+        //まずiとjのsuffixの長さを計算する
+      int suffix_i_length = mySpace.length - i;
+      int suffix_j_length = mySpace.length - j; 
+
+      //iかjの長さを超えるまで再帰が回るようだったら文字列が同じだと判定して０を返す
+      //iの長さ　＞　全体の長さ || jの長さ > 全体の長さ
+
+
+      if(mySpace[i] < mySpace[j]){		// if suffix_i < suffix_j
+        return -1;
+      }
+      else if(mySpace[i] > mySpace[j]){	// if suffix_i > suffix_j
+        return 1;
+      }
+      else if(mySpace[i] == mySpace[j]){		//一文字目が同じだったら
+        if(i + 1 == mySpace.length && j + 1 == mySpace.length){     //両方とも終わり
+          return 0;
+        }
+        else if(i + 1 == mySpace.length){	//どちらかが終わったとき終わってないほうに文字列が存在するか？
+          return -1;                      //i + 1 が終わり
+        }
+        else if(j + 1 == mySpace.length){   //j + 1 が終わり
+          return 1;
+        }
+
+
+        return suffixCompare(i + 1, j + 1);   //どちらも終わりでないので次の文字を見に行く
+      }
+      return 2;
     }
 
     public void setSpace(byte []space) { 
@@ -80,6 +108,23 @@ public class Frequencer implements FrequencerInterface{
         //                                            
         // ここに、int suffixArrayをソートするコードを書け。
         // 　順番はsuffixCompareで定義されるものとする。    
+        int [] SortedSuffixArray = new int [suffixArray.length];
+        int SortedSuffixArraySize = 0;
+        int S;
+
+        for(int i = 0; i < suffixArray.length; i++){
+            S = suffixArray[i];
+            int j;
+            for(j = 0; j < i; j++){
+                if(suffixCompare(SortedSuffixArray[j], S) > 0) break;   //どこに入れるか決める
+            }
+            for(int k = SortedSuffixArraySize; k > j; k--){
+                SortedSuffixArray[k] = SortedSuffixArray[k - 1];    //ずらしていれていく
+            }
+            SortedSuffixArray[j] = S;
+            SortedSuffixArraySize++;
+        }
+        suffixArray = SortedSuffixArray;    //元の配列に戻す
     }
 
     // Suffix Arrayを用いて、文字列の頻度を求めるコード
@@ -149,10 +194,10 @@ public class Frequencer implements FrequencerInterface{
         if (i >= mySpace.length) return SUFFIX_IS_LESS_THAN_TARGET;
 
         if (mySpace[i] < myTarget[j]) {
-          return SUFFIX_IS_BIGGER_THAN_TARGET;
+          return SUFFIX_IS_LESS_THAN_TARGET;
         }
         else if (mySpace[i] > myTarget[j]) {
-          return SUFFIX_IS_LESS_THAN_TARGET;
+          return SUFFIX_IS_BIGGER_THAN_TARGET;
         }
         else /*if (mySpace[i] == myTarget[j])*/ {
           return targetCompare(i + 1, j + 1, k);
