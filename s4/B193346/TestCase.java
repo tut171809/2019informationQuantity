@@ -60,8 +60,8 @@ public class TestCase {
             myObject.setSpace("Hi Ho Hi Ho".getBytes());
             myObject.setTarget("H".getBytes());
             freq = myObject.frequency();
-            System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-            if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            System.out.println("\t\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+            if(4 == freq) { System.out.println("\tOK"); } else {System.out.println("\tWRONG"); }
         }
         catch(Exception e) {
             System.out.println("Exception occurred: STOP");
@@ -72,10 +72,11 @@ public class TestCase {
             System.out.println("checking s4.B193346.Frequencer's subByteFreqency");
             myObject = new s4.B193346.Frequencer();
             int freq;
-            myObject.setTarget("Hi Ho".getBytes());
-            freq = myObject.frequency(0,1);
-            System.out.print("\"Hi\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-            if(2 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            myObject.setSpace("Hi Ho Hi Ho".getBytes());
+            myObject.setTarget("Hi".getBytes());
+            freq = myObject.subByteFrequency(0,2);
+            System.out.println("\t\"Hi\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+            if(2 == freq) { System.out.println("\tOK"); } else {System.out.println("\tWRONG"); }
         }
         catch(Exception e) {
             System.out.println("Exception occurred: STOP");
@@ -90,8 +91,8 @@ public class TestCase {
             myObject.setSpace("Hi Ho Hi Ho".getBytes());
             myObject.setTarget("Hi ".getBytes());
             freq = myObject.frequency();
-            System.out.print("\"Hi_\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-            if(1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            System.out.println("\t\"Hi_\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+            if(2 == freq) { System.out.println("\tOK"); } else {System.out.println("\tWRONG"); }
         }
         catch(Exception e) {
             System.out.println("Exception occurred: STOP");

@@ -1,0 +1,65 @@
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   s4/B161822/Frequencer.java
+	modified:   s4/B171302/Frequencer.java
+	modified:   s4/B171303/Frequencer.java
+	modified:   s4/B171304/Frequencer.java
+	modified:   s4/B171811/Frequencer.java
+	modified:   s4/B171836/Frequencer.java
+	new file:   s4/B171836/InformationEstimator.java
+	new file:   s4/B171836/TestCase.java
+	modified:   s4/B171848/Frequencer.java
+	modified:   s4/B183341/Frequencer.java
+	modified:   s4/B193301/Frequencer.java
+	modified:   s4/B193302/Frequencer.java
+	modified:   s4/B193303/Frequencer.java
+	modified:   s4/B193304/Frequencer.java
+	modified:   s4/B193306/Frequencer.java
+	modified:   s4/B193306/InformationEstimator.java
+	modified:   s4/B193310/Frequencer.java
+	modified:   s4/B193311/Frequencer.java
+	modified:   s4/B193312/Frequencer.java
+	modified:   s4/B193312/TestCase.java
+	modified:   s4/B193313/Frequencer.java
+	modified:   s4/B193315/Frequencer.java
+	modified:   s4/B193317/Frequencer.java
+	modified:   s4/B193318/Frequencer.java
+	modified:   s4/B193319/Frequencer.java
+	modified:   s4/B193324/Frequencer.java
+	modified:   s4/B193325/Frequencer.java
+	modified:   s4/B193329/Frequencer.java
+	modified:   s4/B193333/Frequencer.java
+	modified:   s4/B193335/Frequencer.java
+	modified:   s4/B193337/Frequencer.java
+	modified:   s4/B193340/Frequencer.java
+	modified:   s4/B193346/Frequencer.java
+	modified:   s4/B193346/TestCase.java
+	modified:   s4/B193349/Frequencer.java
+	modified:   s4/B193349/TestCase.java
+	modified:   s4/B193354/Frequencer.java
+	modified:   s4/B193355/Frequencer.java
+	modified:   s4/B193360/Frequencer.java
+	modified:   s4/B193362/Frequencer.java
+	modified:   s4/B193363/Frequencer.java
+	modified:   s4/B193365/Frequencer.java
+	modified:   s4/B193367/Frequencer.java
+	modified:   s4/B193368/Frequencer.java
+	modified:   s4/B193369/Frequencer.java
+	modified:   s4/B193372/Frequencer.java
+	modified:   s4/B193373/Frequencer.java
+	modified:   s4/B193373/InformationEstimator.java
+	modified:   s4/B193376/Frequencer.java
+	modified:   s4/B193376/Hello.java
+	modified:   s4/B193376/InformationEstimator.java
+	modified:   s4/B193376/TestCase.java
+	modified:   s4/B193381/TestCase.java
+	modified:   s4/T000003/TestCase.java
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	Week4/
+

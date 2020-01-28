@@ -2,34 +2,61 @@ package s4.T000003; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
-/*
-   interface FrequencerInterface {     // This interface provides the design for frequency counter.
-   void setTarget(byte[]  target); // set the data to search.
-   void setSpace(byte[]  space);  // set the data to be searched target from.
-   int frequency(); //It return -1, when TARGET is not set or TARGET's length is zero
-//Otherwise, it return 0, when SPACE is not set or Space's length is zero
-//Otherwise, get the frequency of TAGET in SPACE
-int subByteFrequency(int start, int end);
-// get the frequency of subByte of taget, i.e target[start], taget[start+1], ... , target[end-1].
-// For the incorrect value of START or END, the behavior is undefined.
-   }
-   */
-
-/*
-   package s4.specification;
-   public interface InformationEstimatorInterface{
-   void setTarget(byte target[]); // set the data for computing the information quantities
-   void setSpace(byte space[]); // set data for sample space to computer probability
-   double estimation(); // It returns 0.0 when the target is not set or Target's length is zero;
-// It returns Double.MAX_VALUE, when the true value is infinite, or space is not set.
-// The behavior is undefined, if the true value is finete but larger than Double.MAX_VALUE.
-// Note that this happens only when the space is unreasonably large. We will encounter other problem anyway.
-// Otherwise, estimation of information quantity, 
-   }
-   */
-
 
 public class TestCase {
+    private static int testCount = 0;
+
+    /** Test and print message.
+     *
+     * @param expr : boolean value for assertion
+     * @param message : Message printed when failed
+     */
+    static void assertTrue(boolean expr, String message) {
+        testCount++;
+        System.out.printf("Test%2d ", testCount);
+        if(!expr) {
+            System.out.println("Failed: " + message);
+        }
+        else {
+            System.out.println("Passed");
+        }
+    }
+
+    /** Test for Frequencer.frequency()
+     *
+     * */
+    private static void testFrequencer_frequency() {
+        // Use block{} to define scope for each test
+        {
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setSpace("Hi Ho Hi Ho".getBytes());
+            frequencer.setTarget("H".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 4, "H appears 4 times");
+        }
+        // Use another block to test using new object
+        {
+            FrequencerInterface frequencer = new Frequencer();
+            int count = frequencer.frequency();
+            assertTrue(count == -1, "Should returns -1 when Target is not set");
+        }
+    }
+
+    /** Test for InformationEstimator.estimation()
+     *
+     * */
+    private static void testInformationEstimator_estimation() {
+        // Use block{} to define scope for each test
+        {
+            InformationEstimatorInterface estimator = InformationEstimator();
+            estimator.setSpace("3210321001230123".getBytes());
+
+            estimator.setTarget("0".getBytes());
+            double value = estimator.estimation();
+            System.out.println(">0 "+value);
+        }
+    }
+
     public static void main(String[] args) {
         try {
             FrequencerInterface  myObject;
@@ -42,6 +69,7 @@ public class TestCase {
             if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println("Exception occurred: STOP");
         }
 
@@ -65,8 +93,18 @@ public class TestCase {
             System.out.println(">00 "+value);
         }
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println("Exception occurred: STOP");
         }
 
+        try {
+            // Call test methods
+            testFrequencer_frequency();
+            testInformationEstimator_estimation();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception occurred: STOP");
+        }
     }
-}	    
+}

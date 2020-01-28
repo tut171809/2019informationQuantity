@@ -25,50 +25,52 @@ public interface InformationEstimatorInterface{
 // The behavior is undefined, if the true value is finete but larger than Double.MAX_VALUE.
 // Note that this happens only when the space is unreasonably large. We will encounter other problem anyway.
 // Otherwise, estimation of information quantity, 
-}                        
+}
 */
 
 
 public class TestCase {
     public static void main(String[] args) {
-	try {
-	    FrequencerInterface  myObject;
-	    int freq;
-	    System.out.println("checking s4.buggy.Frequencer");
-	    myObject = new s4.buggy.Frequencer();
-	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
-	    myObject.setTarget("H".getBytes());
-	    freq = myObject.frequency();
-	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-	}
-	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
-	}
+        try {
+            FrequencerInterface myObject;
+            int freq;
+            System.out.println("checking s4.buggy.Frequencer");
+            myObject = new s4.buggy.Frequencer();
+            myObject.setSpace("Hi Ho Hi Ho".getBytes());
+            myObject.setTarget("H".getBytes());
+            freq = myObject.frequency();
+            System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+            if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception occurred: STOP");
+        }
 
-	try {
-	    InformationEstimatorInterface myObject;
-	    double value;
-	    System.out.println("checking s4.buggy.InformationEstimator");
-	    myObject = new s4.buggy.InformationEstimator();
-	    myObject.setSpace("3210321001230123".getBytes());
-	    myObject.setTarget("0".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">0 "+value);
-	    myObject.setTarget("01".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">01 "+value);
-	    myObject.setTarget("0123".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">0123 "+value);
-	    myObject.setTarget("00".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">00 "+value);
-	}
-	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
-	}
+        try {
+            InformationEstimatorInterface myObject;
+            double value;
+            System.out.println("checking s4.buggy.InformationEstimator");
+            myObject = new s4.buggy.InformationEstimator();
+            myObject.setSpace("3210321001230123".getBytes());
+            myObject.setTarget("0".getBytes());
+            value = myObject.estimation();
+            System.out.println(">0 "+value);
+            myObject.setTarget("01".getBytes());
+            value = myObject.estimation();
+            System.out.println(">01 "+value);
+            myObject.setTarget("0123".getBytes());
+            value = myObject.estimation();
+            System.out.println(">0123 "+value);
+            myObject.setTarget("00".getBytes());
+            value = myObject.estimation();
+            System.out.println(">00 "+value);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception occurred: STOP");
+        }
 
     }
-}	    
-	    
+}
+
