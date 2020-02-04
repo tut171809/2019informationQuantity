@@ -1,6 +1,7 @@
 package s4.B171809;
 import java.lang.*;
 import s4.specification.*;
+import java.util.function.*;
 
 
 /*package s4.specification;
@@ -64,36 +65,37 @@ public class Frequencer implements FrequencerInterface{
         // if suffix_i = suffix_j, it returns 0;   
 
         // ここにコードを記述せよ 
-        //                                          
-        //まずiとjのsuffixの長さを計算する
-      int suffix_i_length = mySpace.length - i;
-      int suffix_j_length = mySpace.length - j; 
 
       //iかjの長さを超えるまで再帰が回るようだったら文字列が同じだと判定して０を返す
       //iの長さ　＞　全体の長さ || jの長さ > 全体の長さ
 
 
-      if(mySpace[i] < mySpace[j]){		// if suffix_i < suffix_j
-        return -1;
-      }
-      else if(mySpace[i] > mySpace[j]){	// if suffix_i > suffix_j
-        return 1;
-      }
-      else if(mySpace[i] == mySpace[j]){		//一文字目が同じだったら
-        if(i + 1 == mySpace.length && j + 1 == mySpace.length){     //両方とも終わり
-          return 0;
+TAIL_RECURSION:
+      do {
+        if(mySpace[i] < mySpace[j]){		// if suffix_i < suffix_j
+          return -1;
         }
-        else if(i + 1 == mySpace.length){	//どちらかが終わったとき終わってないほうに文字列が存在するか？
-          return -1;                      //i + 1 が終わり
-        }
-        else if(j + 1 == mySpace.length){   //j + 1 が終わり
+        else if(mySpace[i] > mySpace[j]){	// if suffix_i > suffix_j
           return 1;
         }
+        else if(mySpace[i] == mySpace[j]){		//一文字目が同じだったら
+          if(i + 1 == mySpace.length && j + 1 == mySpace.length){     //両方とも終わり
+            return 0;
+          }
+          else if(i + 1 == mySpace.length){	//どちらかが終わったとき終わってないほうに文字列が存在するか？
+            return -1;                      //i + 1 が終わり
+          }
+          else if(j + 1 == mySpace.length){   //j + 1 が終わり
+            return 1;
+          }
 
-
-        return suffixCompare(i + 1, j + 1);   //どちらも終わりでないので次の文字を見に行く
-      }
-      return 2;
+          //TODO: trail recursion
+          //return suffixCompare(i + 1, j + 1);   //どちらも終わりでないので次の文字を見に行く
+          i = i + 1;
+          j = j + 1;
+          continue TAIL_RECURSION;
+        }
+      } while (true);
     }
 
     public void setSpace(byte []space) { 
@@ -108,6 +110,7 @@ public class Frequencer implements FrequencerInterface{
         //                                            
         // ここに、int suffixArrayをソートするコードを書け。
         // 　順番はsuffixCompareで定義されるものとする。    
+        //TODO: nlog(n) sort
         int [] SortedSuffixArray = new int [suffixArray.length];
         int SortedSuffixArraySize = 0;
         int S;
@@ -190,19 +193,25 @@ public class Frequencer implements FrequencerInterface{
         // target_i_k: myTarget[j..k]
         final int SUFFIX_IS_BIGGER_THAN_TARGET = 1;
         final int SUFFIX_IS_LESS_THAN_TARGET = -1;
-        if (j >= k) return 0;
-        if (i >= mySpace.length) return SUFFIX_IS_LESS_THAN_TARGET;
+TAIL_RECURSION:
+        do {
+          if (j >= k) return 0;
+          if (i >= mySpace.length) return SUFFIX_IS_LESS_THAN_TARGET;
 
-        if (mySpace[i] < myTarget[j]) {
-          return SUFFIX_IS_LESS_THAN_TARGET;
-        }
-        else if (mySpace[i] > myTarget[j]) {
-          return SUFFIX_IS_BIGGER_THAN_TARGET;
-        }
-        else /*if (mySpace[i] == myTarget[j])*/ {
-          return targetCompare(i + 1, j + 1, k);
-        }
-        //return 0; // この行は変更しなければならない。
+          if (mySpace[i] < myTarget[j]) {
+            return SUFFIX_IS_LESS_THAN_TARGET;
+          }
+          else if (mySpace[i] > myTarget[j]) {
+            return SUFFIX_IS_BIGGER_THAN_TARGET;
+          }
+          else /*if (mySpace[i] == myTarget[j])*/ {
+
+            //return targetCompare(i + 1, j + 1, k);
+            i = i + 1;
+            j = j + 1;
+            continue TAIL_RECURSION;
+          }
+        } while(true);
     }
 
 
@@ -235,13 +244,21 @@ public class Frequencer implements FrequencerInterface{
 
         final int SUFFIX_IS_BIGGER_THAN_TARGET = 1;
         final int SUFFIX_IS_LESS_THAN_TARGET = -1;
-        for (int i = 0; i < suffixArray.length; ++i) {
-            var compare = targetCompare(suffixArray[i], start, end);
-            if (compare == 0 || compare == SUFFIX_IS_BIGGER_THAN_TARGET) {
-                return i;
-            }
-        }
-        return suffixArray.length;
+        return binarySearch(suffixArray, (array, index) -> {
+          // target: targetCompare(suffixArray[index]) == 0 && targetCompare(suffixArray[index - 1]) == SUFFIX_IS_LESS_THAN_TARGET
+          switch (targetCompare(array[index], start, end)) {
+            case SUFFIX_IS_LESS_THAN_TARGET:
+              return BinarySearchDirection.FORWARD;
+            case SUFFIX_IS_BIGGER_THAN_TARGET:
+              return BinarySearchDirection.BACKWARD;
+            case 0:
+              if (index == 0) return BinarySearchDirection.STOP;
+              if (targetCompare(array[index - 1], start, end) == SUFFIX_IS_LESS_THAN_TARGET) return BinarySearchDirection.STOP;
+              else return BinarySearchDirection.BACKWARD;
+            default:
+              throw new IllegalStateException();
+          }
+        });
     }
 
     private int subByteEndIndex(int start, int end) {
@@ -271,15 +288,61 @@ public class Frequencer implements FrequencerInterface{
         //                                                                   
         final int SUFFIX_IS_BIGGER_THAN_TARGET = 1;
         final int SUFFIX_IS_LESS_THAN_TARGET = -1;
-        for (int i = suffixArray.length - 1; i >= 0; --i) {
-            var compare = targetCompare(suffixArray[i], start, end);
-            if (compare == 0 || compare == SUFFIX_IS_LESS_THAN_TARGET) {
-              return i + 1;
-            }
-        }
-        return 0;
+
+        // binarySearch finds the index of the last suffix.
+        // if the target is "Ho", it returns >>> 6 <<<
+        // if the terget is not found in suffixArray, it returns -1
+
+        final int OFFSET = 1;
+        return OFFSET + binarySearch(suffixArray, (array, index) -> {
+          // target: targetCompare(suffixArray[index]) == 0 && targetCompare(suffixArray[index + 1]) == SUFFIX_IS_BIGGER_THAN_TARGET
+          switch (targetCompare(array[index], start, end)) {
+            case SUFFIX_IS_LESS_THAN_TARGET:
+              return BinarySearchDirection.FORWARD;
+            case SUFFIX_IS_BIGGER_THAN_TARGET:
+              return BinarySearchDirection.BACKWARD;
+            case 0:
+              if (index == array.length - 1) return BinarySearchDirection.STOP;
+              if (targetCompare(array[index + 1], start, end) == SUFFIX_IS_BIGGER_THAN_TARGET) return BinarySearchDirection.STOP;
+              else return BinarySearchDirection.FORWARD;
+            default:
+              throw new IllegalStateException();
+          }
+        });
     }
 
+    private static enum BinarySearchDirection {
+      BACKWARD,
+      STOP,
+      FORWARD,
+    }
+    @FunctionalInterface
+    private static interface BinarySearchFunction {
+      public BinarySearchDirection search(int[] array, int index);
+    }
+
+    private int binarySearch(int[] array, BinarySearchFunction nextDirection) {
+      return binarySearch(array, nextDirection, 0, array.length);
+    }
+    private int binarySearch(int[] array, BinarySearchFunction nextDirection, int start, int endOpen) {
+TAIL_RECURSION:
+      do {
+        if (start == endOpen) return -1;
+        int index = (start + endOpen) / 2;
+        switch (nextDirection.search(array, index)) {
+          case STOP:
+            return index;
+          case BACKWARD:
+            //return binarySearch(array, nextDirection, start, index);
+            start = start; endOpen = index;
+            continue TAIL_RECURSION;
+          case FORWARD:
+            //return binarySearch(array, nextDirection, index + 1, endOpen);
+            start = index + 1; endOpen = endOpen;
+            continue TAIL_RECURSION;
+        }
+      } while(true);
+    }
 
     // Suffix Arrayを使ったプログラムのホワイトテストは、
     // privateなメソッドとフィールドをアクセスすることが必要なので、
