@@ -52,7 +52,7 @@ public class InformationEstimator implements InformationEstimatorInterface{
       for(int i = 0; i < dp.length; i++){
         dp[i] = iq(frequencer.subByteFrequency(0, i + 1));
         for (int k = 0; k < i - 1; k++) {
-          double tmp = dp[k] + iq(frequencer.subByteFrequency(k + 1, i));
+          double tmp = dp[k] + iq(frequencer.subByteFrequency(k + 1, i + 1));
           if (dp[i] > tmp) {
             dp[i] = tmp;
           }
