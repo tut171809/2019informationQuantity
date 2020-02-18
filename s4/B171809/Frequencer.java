@@ -89,7 +89,6 @@ TAIL_RECURSION:
             return 1;
           }
 
-          //TODO: trail recursion
           //return suffixCompare(i + 1, j + 1);   //どちらも終わりでないので次の文字を見に行く
           i = i + 1;
           j = j + 1;
