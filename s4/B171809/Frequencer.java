@@ -28,7 +28,7 @@ public class Frequencer implements FrequencerInterface{
     boolean spaceReady = false;
 
     int []  suffixArray; // Suffix Arrayの実装に使うデータの型をint []とせよ。
-
+    private Sort sort = new Sort();
 
     // The variable, "suffixArray" is the sorted array of all suffixes of mySpace.                                    
     // Each suffix is expressed by a integer, which is the starting position in mySpace. 
@@ -110,24 +110,7 @@ TAIL_RECURSION:
         //                                            
         // ここに、int suffixArrayをソートするコードを書け。
         // 　順番はsuffixCompareで定義されるものとする。    
-        //TODO: nlog(n) sort
-        int [] SortedSuffixArray = new int [suffixArray.length];
-        int SortedSuffixArraySize = 0;
-        int S;
-
-        for(int i = 0; i < suffixArray.length; i++){
-            S = suffixArray[i];
-            int j;
-            for(j = 0; j < i; j++){
-                if(suffixCompare(SortedSuffixArray[j], S) > 0) break;   //どこに入れるか決める
-            }
-            for(int k = SortedSuffixArraySize; k > j; k--){
-                SortedSuffixArray[k] = SortedSuffixArray[k - 1];    //ずらしていれていく
-            }
-            SortedSuffixArray[j] = S;
-            SortedSuffixArraySize++;
-        }
-        suffixArray = SortedSuffixArray;    //元の配列に戻す
+        this.sort.sort(suffixArray, this::suffixCompare);
     }
 
     // Suffix Arrayを用いて、文字列の頻度を求めるコード
