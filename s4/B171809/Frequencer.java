@@ -244,7 +244,7 @@ TAIL_RECURSION:
 
         final int SUFFIX_IS_BIGGER_THAN_TARGET = 1;
         final int SUFFIX_IS_LESS_THAN_TARGET = -1;
-        return binarySearch(suffixArray, (array, index) -> {
+        int result = binarySearch(suffixArray, (array, index) -> {
           // target: targetCompare(suffixArray[index]) == 0 && targetCompare(suffixArray[index - 1]) == SUFFIX_IS_LESS_THAN_TARGET
           switch (targetCompare(array[index], start, end)) {
             case SUFFIX_IS_LESS_THAN_TARGET:
@@ -259,6 +259,8 @@ TAIL_RECURSION:
               throw new IllegalStateException();
           }
         });
+        if (result == -1) return 0;
+        return result;
     }
 
     private int subByteEndIndex(int start, int end) {
